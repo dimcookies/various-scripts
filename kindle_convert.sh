@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#apt install html-xml-utils tidy calibre
+
 if [ $# -eq 0 ]; then
     echo "No arguments provided"
     exit 1
@@ -9,7 +11,7 @@ fi
 URL=$1
 
 
-TITLE=`curl $URL |tidy -q -c -b -omit -w 0 | grep -i "<title" | hxselect -s '\n' -c  'title' `
+TITLE=`curl -L $URL |tidy -q -c -b -omit -w 0 | grep -i "<title" | hxselect -s '\n' -c  'title' `
 
 
 curl -o output.html --data-urlencode "extractor=ArticleExtractor" --data-urlencode "output=htmlFragment" --data-urlencode "url=$URL" http://boilerpipe-web.appspot.com/extract
